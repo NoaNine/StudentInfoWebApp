@@ -2,9 +2,9 @@
 
 The project was created by Oleksandr Havlytskyi for educational purposes at the FoxmindEd course.
 ____
-**Technology or principles have been mastered( or repeated):** Web app architectures, ASP.NET Core MVC, DI,
+**Technology or principles have been mastered( or repeated):** ASP.NET Core MVC, Razor Pages, DI, MSSQL Serve, Entity Framework Core, Web app architectures, Organizing code in Clean Architecture. 
 ____
-**The purpose of the project:** 
+**The purpose of the project:** Learn to create a web application(website) to store/get data in a database.
 
 **Task description:** Create ASP.NET Core MVC application for output data from task 6.
 
