@@ -1,6 +1,6 @@
 ﻿namespace StudentInfoWebApp.DAL;
 
-public class Class1
+public class UniversityContext
 {
-
+    
 }
