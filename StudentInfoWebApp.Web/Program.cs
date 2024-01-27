@@ -1,3 +1,7 @@
+using Microsoft.EntityFrameworkCore;
+using StudentInfoWebApp.DAL;
+using StudentInfoWebApp.DAL.UnitOfWork;
+
 namespace StudentInfoWebApp.Web;
 
 public class Program
@@ -6,7 +10,12 @@ public class Program
     {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddDbContext<UniversityContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("UniversityDatabase")));
+        builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
         builder.Services.AddControllersWithViews();
+
+
 
         var app = builder.Build();
 
@@ -15,6 +24,21 @@ public class Program
             app.UseExceptionHandler("/Home/Error");
             app.UseHsts();
         }
+
+#if Development
+        using (var scope = app.Services.CreateScope())
+        {
+            var context = scope.ServiceProvider.GetService<UniversityContext>();
+
+            if (!context.Groups.Any() && !context.Students.Any() && !context.Courses.Any())
+            {
+                DataSeeder.SeedCourses(context);
+                DataSeeder.SeedGroups(context);
+                DataSeeder.SeedStudents(context);
+            }
+        }
+#endif
+
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();

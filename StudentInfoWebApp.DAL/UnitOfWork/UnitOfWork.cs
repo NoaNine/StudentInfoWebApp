@@ -5,7 +5,7 @@ using StudentInfoWebApp.DAL.Repository;
 
 namespace StudentInfoWebApp.DAL.UnitOfWork;
 
-public class UnitOfWork : IDisposable
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
     private readonly UniversityContext _context;
     private bool _disposed = false;
