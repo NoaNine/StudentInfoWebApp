@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Group";
 }
 
 <h2>Курси</h2>
@@ -10,7 +10,7 @@
         <th>Опис</th>
     </tr>
 
-    @foreach (var item in Model)
+@*     @foreach (var item in Model)
     {
         <tr>
             <td>@item.Id</td>
@@ -22,5 +22,5 @@
                 <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
             </td>
         </tr>
-    }
+    } *@
 </table>

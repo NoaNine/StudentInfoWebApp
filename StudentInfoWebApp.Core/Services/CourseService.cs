@@ -12,10 +12,13 @@ public class CourseService : BaseService, ICourseService
 
     }
 
-    public async Task<IEnumerable<Course>> GetAllCourses()
+    public async Task<IEnumerable<Course>> GetAllCourses(bool addNestedData = false)
     {
         var courses = await _unitOfWork.GetRepository<Course>().GetAll();
-        LoadGroups(courses);
+        if (addNestedData is true)
+        {
+            LoadGroups(courses);
+        }
         return courses;
     }
 

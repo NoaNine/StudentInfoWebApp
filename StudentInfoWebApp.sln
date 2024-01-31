@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentInfoWebApp.DAL", "StudentInfoWebApp.DAL\StudentInfoWebApp.DAL.csproj", "{34B24C34-DF88-46D6-8CA3-5FFD957FE3D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentInfoWebApp.DAL", "StudentInfoWebApp.DAL\StudentInfoWebApp.DAL.csproj", "{34B24C34-DF88-46D6-8CA3-5FFD957FE3D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentInfoWebApp.Core", "StudentInfoWebApp.Core\StudentInfoWebApp.Core.csproj", "{4926A20E-2FE8-4F0E-BD9C-3B71E1F2695A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentInfoWebApp.Core", "StudentInfoWebApp.Core\StudentInfoWebApp.Core.csproj", "{4926A20E-2FE8-4F0E-BD9C-3B71E1F2695A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentInfoWebApp.Web", "StudentInfoWebApp.Web\StudentInfoWebApp.Web.csproj", "{932017DC-92F9-4E2B-85BE-859A72A3A8E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StudentInfoWebApp.Web", "StudentInfoWebApp.Web\StudentInfoWebApp.Web.csproj", "{932017DC-92F9-4E2B-85BE-859A72A3A8E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

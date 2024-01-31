@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Student";
 }
 
 <h2>Курси</h2>
@@ -17,8 +17,7 @@
             <td>@item.Name</td>
             <td>@item.Description</td>
             <td>
-                <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Показати</a> |
-                <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                 <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
             </td>
         </tr>

@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using StudentInfoWebApp.Core.Services;
+using StudentInfoWebApp.Core.Services.Interface;
 using StudentInfoWebApp.DAL;
 using StudentInfoWebApp.DAL.UnitOfWork;
 
@@ -15,7 +17,9 @@ public class Program
 
         builder.Services.AddControllersWithViews();
 
-
+        builder.Services.AddTransient<ICourseService, CourseService>();
+        builder.Services.AddTransient<IGroupService, GroupService>();
+        builder.Services.AddTransient<IStudentService, StudentService>();
 
         var app = builder.Build();
 
@@ -38,7 +42,6 @@ public class Program
             }
         }
 #endif
-
 
         app.UseHttpsRedirection();
         app.UseStaticFiles();
