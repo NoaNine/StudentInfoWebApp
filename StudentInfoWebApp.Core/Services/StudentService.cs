@@ -5,7 +5,7 @@ using StudentInfoWebApp.DAL.UnitOfWork;
 
 namespace StudentInfoWebApp.Core.Services;
 
-public class StudentService : BaseService, IStudentService
+public class StudentService : BaseService
 {
     public StudentService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {

@@ -4,6 +4,8 @@ namespace StudentInfoWebApp.Core.Services.Interface
 {
     public interface ICourseService
     {
-        Task<IEnumerable<Course>> GetAllCourses(bool addNestedData = false);
+        void DeleteCourse(Course course);
+        void EditCourse(Course course);
+        Task<IEnumerable<Course>> GetAllCourses();
     }
 }

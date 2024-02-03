@@ -1,10 +1,10 @@
 ﻿using StudentInfoWebApp.DAL.Models;
 
-namespace StudentInfoWebApp.Core.Services.Interface
+namespace StudentInfoWebApp.Core.Services.Interface;
+
+public interface IGroupService
 {
-    public interface IGroupService
-    {
-        void DeleteGroup(Group group);
-        void EditGroup(Group group);
-    }
+    void DeleteGroup(Group group);
+    void EditGroup(Group group);
+    Task<IEnumerable<Group>> GetAllGroups();
 }

@@ -1,4 +1,5 @@
-﻿using StudentInfoWebApp.Core.Services.Base;
+﻿using StudentInfoWebApp.Core.Exceptions;
+using StudentInfoWebApp.Core.Services.Base;
 using StudentInfoWebApp.Core.Services.Interface;
 using StudentInfoWebApp.DAL.Models;
 using StudentInfoWebApp.DAL.UnitOfWork;
@@ -12,32 +13,45 @@ public class CourseService : BaseService, ICourseService
 
     }
 
-    public async Task<IEnumerable<Course>> GetAllCourses(bool addNestedData = false)
+    public void EditCourse(Course course)
+    {
+        _unitOfWork.GetRepository<Course>().Update(course);
+        _unitOfWork.Save();
+    }
+
+    public void DeleteCourse(Course course)
+    {
+        if (course.Groups.Count > 0)
+        {
+            throw new CourseNotNullOrEmptyException();
+        }
+        _unitOfWork.GetRepository<Course>().Delete(course);
+        _unitOfWork.Save();
+    }
+
+    public async Task<IEnumerable<Course>> GetAllCourses()
     {
         var courses = await _unitOfWork.GetRepository<Course>().GetAll();
-        if (addNestedData is true)
-        {
-            LoadGroups(courses);
-        }
+        await LoadGroupsToCourse(courses);
         return courses;
     }
 
-    private Task LoadGroups(IEnumerable<Course> courses)
+    private async Task LoadGroupsToCourse(IEnumerable<Course> courses)
     {
         foreach (var course in courses)
         {
-            course.Groups = (ICollection<Group>)_unitOfWork.GetRepository<Group>().GetAll(c => c.CourseId == course.Id);
-            LoadStudents(course.Groups);
+            var groups = await _unitOfWork.GetRepository<Group>().GetAll(c => c.CourseId == course.Id);
+            course.Groups = (ICollection<Group>)groups;
+            await LoadStudentsToGroup(course.Groups);
         }
-        return Task.CompletedTask;
     }
 
-    private Task LoadStudents(ICollection<Group> groups)
+    private async Task LoadStudentsToGroup(ICollection<Group> groups)
     {
         foreach (var group in groups)
         {
-            group.Students = (ICollection<Student>)_unitOfWork.GetRepository<Student>().GetAll();
+            var students = await _unitOfWork.GetRepository<Student>().GetAll();
+            group.Students = (ICollection<Student>)students;
         }
-        return Task.CompletedTask;
     }
 }
