@@ -19,7 +19,7 @@ public class Program
 
         builder.Services.AddTransient<ICourseService, CourseService>();
         builder.Services.AddTransient<IGroupService, GroupService>();
-        //builder.Services.AddTransient<IStudentService, StudentService>();
+        builder.Services.AddTransient<IStudentService, StudentService>();
 
         var app = builder.Build();
 

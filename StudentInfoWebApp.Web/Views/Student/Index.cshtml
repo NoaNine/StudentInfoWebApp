@@ -1,0 +1,29 @@
+﻿<h2>Студенти</h2>
+<form asp-controller="Student" asp-action="Index">
+    <p>
+        Прізвище: <input type="text" name="searchString" />
+        <input type="submit" value="Фільтр" />
+    </p>
+</form>
+<table class="table">
+    <tr>
+        <th>Id</th>
+        <th>Ім'я</th>
+        <th>Прізвище</th>
+        <th>Група</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.Group.Name</td>
+            <td>
+                <a asp-controller="Student" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-controller="Student" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+            </td>
+        </tr>
+    }
+</table>

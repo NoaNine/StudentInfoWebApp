@@ -1,13 +1,15 @@
-﻿@{
-    ViewData["Title"] = "Index";
-}
-
-<h2>Курси</h2>
+﻿<h2>Групи</h2>
+<form asp-controller="Group" asp-action="Index">
+    <p>
+        Назва: <input type="text" name="searchString" />
+        <input type="submit" value="Фільтр" />
+    </p>
+</form>
 <table class="table">
     <tr>
         <th>Id</th>
         <th>Назва</th>
-        <th>Курс</th>
+        <th>Курс</th> 
     </tr>
 
      @foreach (var item in Model)
@@ -21,7 +23,7 @@
                 <a asp-controller="Group" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
             </td>
             <td class="nav-selected-item">
-                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index" asp-route-id="@item.Id">Студенти</a>
+                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index" asp-route-groupId="@item.Id">Студенти</a>
             </td>
         </tr>
     }

@@ -1,8 +1,4 @@
-﻿@{
-    ViewData["Title"] = "Home";
-}
-
-<h2>Курси</h2>
+﻿<h2>Курси</h2>
 <table class="table">
     <tr>
         <th>Id</th>
@@ -20,7 +16,7 @@
                 <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                 <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
             <td class="nav-selected-item">
-                <a class="nav-link text-dark" asp-controller="Group" asp-action="Index" asp-route-id="@item.Id">Групи</a>
+                <a class="nav-link text-dark" asp-controller="Group" asp-action="Index" asp-route-courseId="@item.Id">Групи</a>
             </td>
             </td>
         </tr>

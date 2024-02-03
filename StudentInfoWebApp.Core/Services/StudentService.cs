@@ -5,7 +5,7 @@ using StudentInfoWebApp.DAL.UnitOfWork;
 
 namespace StudentInfoWebApp.Core.Services;
 
-public class StudentService : BaseService
+public class StudentService : BaseService, IStudentService
 {
     public StudentService(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
@@ -22,5 +22,15 @@ public class StudentService : BaseService
     {
         _unitOfWork.GetRepository<Student>().Delete(student);
         _unitOfWork.Save();
+    }
+
+    public async Task<IEnumerable<Student>> GetAllStudents()
+    {
+        var students = await _unitOfWork.GetRepository<Student>().GetAll();
+        foreach (var student in students)
+        {
+            student.Group = await _unitOfWork.GetRepository<Group>().GetById(student.GroupId);
+        }
+        return students;
     }
 }
