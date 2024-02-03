@@ -17,9 +17,11 @@
             <td>@item.Name</td>
             <td>@item.Description</td>
             <td>
-                <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Показати</a> |
-                <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
                 <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+            <td class="nav-selected-item">
+                <a class="nav-link text-dark" asp-controller="Group" asp-action="Index" asp-route-id="@item.Id">Групи</a>
+            </td>
             </td>
         </tr>
     }

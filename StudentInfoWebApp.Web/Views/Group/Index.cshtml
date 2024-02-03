@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Group";
+    ViewData["Title"] = "Index";
 }
 
 <h2>Курси</h2>
@@ -7,20 +7,22 @@
     <tr>
         <th>Id</th>
         <th>Назва</th>
-        <th>Опис</th>
+        <th>Курс</th>
     </tr>
 
-@*     @foreach (var item in Model)
+     @foreach (var item in Model)
     {
         <tr>
             <td>@item.Id</td>
             <td>@item.Name</td>
-            <td>@item.Description</td>
+            <td>@item.Course.Name</td>
             <td>
-                <a asp-controller="Home" asp-action="Edit" asp-route-id="@item.Id">Показати</a> |
-                <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-controller="Home" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                <a asp-controller="Group" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
+                <a asp-controller="Group" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+            </td>
+            <td class="nav-selected-item">
+                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index" asp-route-id="@item.Id">Студенти</a>
             </td>
         </tr>
-    } *@
+    }
 </table>
