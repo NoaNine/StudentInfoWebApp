@@ -1,0 +1,26 @@
+﻿@model StudentInfoWebApp.DAL.Models.Course
+
+<h1>Ви точно хочете видалити курс?</h1>
+
+<tr>
+    <td>@Model.Name</td>
+</tr>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Delete">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Name" />
+            <div class="form-group">
+                <input type="submit" formmethod="post" value="Так" class="btn btn-primary" />
+            </div>
+            <input type="hidden" asp-for="Description" />
+            <input type="hidden" asp-for="Groups" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Назад до списку</a>
+</div>

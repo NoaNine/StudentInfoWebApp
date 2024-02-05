@@ -1,21 +1,19 @@
 ﻿@model StudentInfoWebApp.DAL.Models.Group
 
-<h1>Редагувати</h1>
+<h1>Ви точно хочете видалити групу?</h1>
 
-<h4>Група</h4>
+<tr>
+    <td>@Model.Name</td>
+</tr>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Delete">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Name" />
             <div class="form-group">
-                <label class="control-label">Назва</label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" formmethod="post" value="Зберегти" class="btn btn-primary" />
+                <input type="submit" formmethod="post" value="Так" class="btn btn-primary" />
             </div>
             <input type="hidden" asp-for="Course" />
             <input type="hidden" asp-for="CourseId" />
@@ -27,9 +25,3 @@
 <div>
     <a asp-action="Index">Назад до списку</a>
 </div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ScriptsPartial");
-    }
-}

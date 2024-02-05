@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StudentInfoWebApp.Core.Services.Interface;
+using StudentInfoWebApp.DAL.Models;
 using StudentInfoWebApp.Web.Models;
 using System.Diagnostics;
 
@@ -47,6 +48,72 @@ public class GroupController : Controller
         {
             return StatusCode(500, ex.Message);
         }
+    }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        var group = await _groupService.GetById(id);
+        if (group == null)
+        {
+            return NotFound();
+        }
+        return View(group);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CourseId,Course,Students")] Group group)
+    {
+        if (id != group.Id)
+        {
+            return NotFound();
+        }
+
+        try
+        {
+            _groupService.EditGroup(group);
+            return RedirectToAction(nameof(Index));
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    public async Task<IActionResult> Delete(int? id)
+    {
+
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var group = await _groupService.GetById((int)id);
+        if (group == null)
+        {
+            return NotFound();
+        }
+
+        return View(group);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var group = await _groupService.GetById(id);
+        if (group != null)
+        {
+            try
+            {
+                _groupService.DeleteGroup(group);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+        return RedirectToAction(nameof(Index));
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

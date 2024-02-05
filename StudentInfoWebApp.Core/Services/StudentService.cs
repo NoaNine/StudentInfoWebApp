@@ -12,6 +12,9 @@ public class StudentService : BaseService, IStudentService
 
     }
 
+    public async Task<Student> GetById(int id) =>
+        await _unitOfWork.GetRepository<Student>().GetById(id);
+
     public void EditStudent(Student student)
     {
         _unitOfWork.GetRepository<Student>().Update(student);

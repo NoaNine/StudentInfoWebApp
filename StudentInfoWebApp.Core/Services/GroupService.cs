@@ -13,6 +13,9 @@ public class GroupService : BaseService, IGroupService
 
     }
 
+    public async Task<Group> GetById(int id) =>
+        await _unitOfWork.GetRepository<Group>().GetById(id);
+
     public void EditGroup(Group group)
     {
         _unitOfWork.GetRepository<Group>().Update(group);
@@ -21,6 +24,8 @@ public class GroupService : BaseService, IGroupService
 
     public void DeleteGroup(Group group)
     {
+        var students = _unitOfWork.GetRepository<Student>().GetAll(_ => _.GroupId == group.Id);
+        group.Students = (ICollection<Student>)students;
         if (group.Students.Count > 0)
         {
             throw new GroupNotNullOrEmptyException();

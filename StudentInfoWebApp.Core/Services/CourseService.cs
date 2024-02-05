@@ -13,6 +13,9 @@ public class CourseService : BaseService, ICourseService
 
     }
 
+    public async Task<Course> GetById(int id) =>
+        await _unitOfWork.GetRepository<Course>().GetById(id);
+
     public void EditCourse(Course course)
     {
         _unitOfWork.GetRepository<Course>().Update(course);

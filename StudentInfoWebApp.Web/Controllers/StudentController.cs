@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StudentInfoWebApp.Core.Services;
+using Microsoft.EntityFrameworkCore;
 using StudentInfoWebApp.Core.Services.Interface;
+using StudentInfoWebApp.DAL.Models;
 using StudentInfoWebApp.Web.Models;
 using System.Diagnostics;
 
@@ -48,6 +49,66 @@ namespace StudentInfoWebApp.Web.Controllers
             {
                 return StatusCode(500, ex.Message);
             }
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var student = await _studentService.GetById(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Group,GroupId")] Student student)
+        {
+            if (id != student.Id)
+            {
+                return NotFound();
+            }
+
+            try
+            {
+                _studentService.EditStudent(student);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var student = await _studentService.GetById((int)id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+
+            return View(student);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var student = await _studentService.GetById(id);
+            if (student != null)
+            {
+                _studentService.DeleteStudent(student);
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
