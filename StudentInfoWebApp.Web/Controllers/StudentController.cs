@@ -1,120 +1,112 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using StudentInfoWebApp.Core.Services.Interface;
 using StudentInfoWebApp.DAL.Models;
 using StudentInfoWebApp.Web.Models;
 using System.Diagnostics;
 
-namespace StudentInfoWebApp.Web.Controllers
+namespace StudentInfoWebApp.Web.Controllers;
+
+public class StudentController : Controller
 {
-    public class StudentController : Controller
+    private readonly IStudentService _studentService;
+
+    public StudentController(IStudentService studentService)
     {
-        private readonly IStudentService _studentService;
+        _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
+    }
 
-        public StudentController(IStudentService studentService)
+    public async Task<IActionResult> Index(int groupId)
+    {
+        try
         {
-            _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
+            var students = await _studentService.GetAllStudents();
+            if (groupId != 0)
+            {
+                students = students.Where(_ => _.GroupId == groupId);
+            }
+            return View(students);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Index(string searchString)
+    {
+        try
+        {
+            var students = await _studentService.GetAllStudents();
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                students = students.Where(_ => _.LastName.Contains(searchString));
+            }
+            return View(students);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
+        }
+    }
+
+    public async Task<IActionResult> Edit(int id)
+    {
+        var student = await _studentService.GetById(id);
+        if (student == null)
+        {
+            return NotFound();
+        }
+        return View(student);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Group,GroupId")] Student student)
+    {
+        if (id != student.Id)
+        {
+            return NotFound();
         }
 
-        public async Task<IActionResult> Index(int groupId)
+        try
         {
-            try
-            {
-                var students = await _studentService.GetAllStudents();
-                if (groupId != 0)
-                {
-                    students = students.Where(_ => _.GroupId == groupId);
-                }
-                return View(students);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Index(string searchString)
-        {
-            try
-            {
-                var students = await _studentService.GetAllStudents();
-                if (!string.IsNullOrEmpty(searchString))
-                {
-                    students = students.Where(_ => _.LastName.Contains(searchString));
-                }
-                return View(students);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        public async Task<IActionResult> Edit(int id)
-        {
-            var student = await _studentService.GetById(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-            return View(student);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Group,GroupId")] Student student)
-        {
-            if (id != student.Id)
-            {
-                return NotFound();
-            }
-
-            try
-            {
-                _studentService.EditStudent(student);
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
-
-        public async Task<IActionResult> Delete(int? id)
-        {
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var student = await _studentService.GetById((int)id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-            return View(student);
-        }
-
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var student = await _studentService.GetById(id);
-            if (student != null)
-            {
-                _studentService.DeleteStudent(student);
-            }
-
+            _studentService.EditStudent(student);
             return RedirectToAction(nameof(Index));
         }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        catch (Exception ex)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return StatusCode(500, ex.Message);
         }
+    }
+
+    public async Task<IActionResult> Delete(int id)
+    {
+        var student = await _studentService.GetById(id);
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        return View(student);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        var student = await _studentService.GetById(id);
+        if (student != null)
+        {
+            _studentService.DeleteStudent(student);
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

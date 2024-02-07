@@ -1,12 +1,11 @@
 ﻿using StudentInfoWebApp.DAL.Models;
 
-namespace StudentInfoWebApp.Core.Services.Interface
+namespace StudentInfoWebApp.Core.Services.Interface;
+
+public interface ICourseService
 {
-    public interface ICourseService
-    {
-        Task<Course> GetById(int id);
-        void DeleteCourse(Course course);
-        void EditCourse(Course course);
-        Task<IEnumerable<Course>> GetAllCourses();
-    }
+    Task<Course> GetById(int id);
+    void DeleteCourse(Course course);
+    void EditCourse(Course course);
+    Task<IEnumerable<Course>> GetAllCourses();
 }

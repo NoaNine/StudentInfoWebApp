@@ -80,15 +80,9 @@ public class GroupController : Controller
         }
     }
 
-    public async Task<IActionResult> Delete(int? id)
+    public async Task<IActionResult> Delete(int id)
     {
-
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var group = await _groupService.GetById((int)id);
+        var group = await _groupService.GetById(id);
         if (group == null)
         {
             return NotFound();

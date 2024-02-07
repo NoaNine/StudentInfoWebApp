@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using StudentInfoWebApp.Core.Services.Interface;
 using StudentInfoWebApp.DAL.Models;
 using StudentInfoWebApp.Web.Models;
@@ -59,15 +58,9 @@ public class HomeController : Controller
         }
     }
 
-    public async Task<IActionResult> Delete(int? id)
+    public async Task<IActionResult> Delete(int id)
     {
-
-        if (id == null)
-        {
-            return NotFound();
-        }
-
-        var course = await _courseService.GetById((int)id);
+        var course = await _courseService.GetById(id);
         if (course == null)
         {
             return NotFound();
