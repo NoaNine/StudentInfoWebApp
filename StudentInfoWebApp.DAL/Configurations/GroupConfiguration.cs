@@ -8,13 +8,13 @@ public class GroupConfiguration : IEntityTypeConfiguration<Group>
 {
     public void Configure(EntityTypeBuilder<Group> builder)
     {
-        builder.ToTable("GROUPS")
+        builder.ToTable("Groups")
             .HasMany(g => g.Students)
             .WithOne(s => s.Group)
             .HasForeignKey(s => s.GroupId)
             .OnDelete(DeleteBehavior.Cascade);
         builder.HasIndex(g => g.Name)
-            .IsUnique();;
+            .IsUnique();
     }
 
 }

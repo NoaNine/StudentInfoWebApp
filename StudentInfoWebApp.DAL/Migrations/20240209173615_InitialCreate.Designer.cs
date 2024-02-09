@@ -11,7 +11,7 @@ using StudentInfoWebApp.DAL;
 namespace StudentInfoWebApp.DAL.Migrations
 {
     [DbContext(typeof(UniversityContext))]
-    [Migration("20240127154449_InitialCreate")]
+    [Migration("20240209173615_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -45,7 +45,7 @@ namespace StudentInfoWebApp.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("COURSES", (string)null);
+                    b.ToTable("Courses", (string)null);
                 });
 
             modelBuilder.Entity("StudentInfoWebApp.DAL.Models.Group", b =>
@@ -70,7 +70,7 @@ namespace StudentInfoWebApp.DAL.Migrations
                     b.HasIndex("Name")
                         .IsUnique();
 
-                    b.ToTable("GROUPS", (string)null);
+                    b.ToTable("Groups", (string)null);
                 });
 
             modelBuilder.Entity("StudentInfoWebApp.DAL.Models.Student", b =>
@@ -96,7 +96,7 @@ namespace StudentInfoWebApp.DAL.Migrations
 
                     b.HasIndex("GroupId");
 
-                    b.ToTable("STUDENTS", (string)null);
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("StudentInfoWebApp.DAL.Models.Group", b =>

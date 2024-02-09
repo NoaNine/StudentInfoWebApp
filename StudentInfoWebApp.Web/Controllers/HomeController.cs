@@ -31,10 +31,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var course = await _courseService.GetById(id);
-        if (course == null)
-        {
-            return NotFound();
-        }
+        IsNull(course);
         return View(course);
     }
 
@@ -61,10 +58,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var course = await _courseService.GetById(id);
-        if (course == null)
-        {
-            return NotFound();
-        }
+        IsNull(course);
 
         return View(course);
     }
@@ -74,10 +68,8 @@ public class HomeController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var course = await _courseService.GetById(id);
-        if (course != null)
-        {
-            _courseService.DeleteCourse(course);
-        }
+        IsNull(course);
+        _courseService.DeleteCourse(course);
 
         return RedirectToAction(nameof(Index));
     }
@@ -86,5 +78,14 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private IActionResult IsNull(Course course)
+    {
+        if (course == null)
+        {
+            return NotFound();
+        }
+        return Ok();
     }
 }

@@ -53,10 +53,7 @@ public class StudentController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var student = await _studentService.GetById(id);
-        if (student == null)
-        {
-            return NotFound();
-        }
+        IsNull(student);
         return View(student);
     }
 
@@ -83,11 +80,7 @@ public class StudentController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var student = await _studentService.GetById(id);
-        if (student == null)
-        {
-            return NotFound();
-        }
-
+        IsNull(student);
         return View(student);
     }
 
@@ -96,10 +89,8 @@ public class StudentController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var student = await _studentService.GetById(id);
-        if (student != null)
-        {
-            _studentService.DeleteStudent(student);
-        }
+        IsNull(student);
+        _studentService.DeleteStudent(student);
 
         return RedirectToAction(nameof(Index));
     }
@@ -108,5 +99,14 @@ public class StudentController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private IActionResult IsNull(Student student)
+    {
+        if (student == null)
+        {
+            return NotFound();
+        }
+        return Ok();
     }
 }

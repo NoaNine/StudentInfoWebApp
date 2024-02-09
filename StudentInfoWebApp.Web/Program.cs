@@ -13,13 +13,7 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddDbContext<UniversityContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("UniversityDatabase")));
-        builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
-
-        builder.Services.AddControllersWithViews();
-
-        builder.Services.AddTransient<ICourseService, CourseService>();
-        builder.Services.AddTransient<IGroupService, GroupService>();
-        builder.Services.AddTransient<IStudentService, StudentService>();
+        ConfigureServices(builder.Services);
 
         var app = builder.Build();
 
@@ -55,5 +49,16 @@ public class Program
             pattern: "{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
+    }
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+        services.AddControllersWithViews();
+
+        services.AddTransient<ICourseService, CourseService>();
+        services.AddTransient<IGroupService, GroupService>();
+        services.AddTransient<IStudentService, StudentService>();
     }
 }

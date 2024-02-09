@@ -8,7 +8,7 @@ public class CourseConfiguration : IEntityTypeConfiguration<Course>
 {
     public void Configure(EntityTypeBuilder<Course> builder)
     {
-        builder.ToTable("COURSES")
+        builder.ToTable("Courses")
                 .HasMany(c => c.Groups)
                 .WithOne(g => g.Course)
                 .HasForeignKey(g => g.CourseId)

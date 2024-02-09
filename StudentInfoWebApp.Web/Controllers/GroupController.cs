@@ -53,10 +53,7 @@ public class GroupController : Controller
     public async Task<IActionResult> Edit(int id)
     {
         var group = await _groupService.GetById(id);
-        if (group == null)
-        {
-            return NotFound();
-        }
+        IsNull(group);
         return View(group);
     }
 
@@ -83,11 +80,7 @@ public class GroupController : Controller
     public async Task<IActionResult> Delete(int id)
     {
         var group = await _groupService.GetById(id);
-        if (group == null)
-        {
-            return NotFound();
-        }
-
+        IsNull(group);
         return View(group);
     }
 
@@ -96,16 +89,14 @@ public class GroupController : Controller
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         var group = await _groupService.GetById(id);
-        if (group != null)
+        IsNull(group);
+        try
         {
-            try
-            {
-                _groupService.DeleteGroup(group);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            _groupService.DeleteGroup(group);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, ex.Message);
         }
         return RedirectToAction(nameof(Index));
     }
@@ -114,5 +105,14 @@ public class GroupController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    private IActionResult IsNull(Group group)
+    {
+        if (group == null)
+        {
+            return NotFound();
+        }
+        return Ok();
     }
 }

@@ -11,7 +11,7 @@ namespace StudentInfoWebApp.DAL.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "COURSES",
+                name: "Courses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -21,11 +21,11 @@ namespace StudentInfoWebApp.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_COURSES", x => x.Id);
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "GROUPS",
+                name: "Groups",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -35,17 +35,17 @@ namespace StudentInfoWebApp.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GROUPS", x => x.Id);
+                    table.PrimaryKey("PK_Groups", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_GROUPS_COURSES_CourseId",
+                        name: "FK_Groups_Courses_CourseId",
                         column: x => x.CourseId,
-                        principalTable: "COURSES",
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "STUDENTS",
+                name: "Students",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -56,35 +56,35 @@ namespace StudentInfoWebApp.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_STUDENTS", x => x.Id);
+                    table.PrimaryKey("PK_Students", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_STUDENTS_GROUPS_GroupId",
+                        name: "FK_Students_Groups_GroupId",
                         column: x => x.GroupId,
-                        principalTable: "GROUPS",
+                        principalTable: "Groups",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_COURSES_Name",
-                table: "COURSES",
+                name: "IX_Courses_Name",
+                table: "Courses",
                 column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_GROUPS_CourseId",
-                table: "GROUPS",
+                name: "IX_Groups_CourseId",
+                table: "Groups",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GROUPS_Name",
-                table: "GROUPS",
+                name: "IX_Groups_Name",
+                table: "Groups",
                 column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_STUDENTS_GroupId",
-                table: "STUDENTS",
+                name: "IX_Students_GroupId",
+                table: "Students",
                 column: "GroupId");
         }
 
@@ -92,13 +92,13 @@ namespace StudentInfoWebApp.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "STUDENTS");
+                name: "Students");
 
             migrationBuilder.DropTable(
-                name: "GROUPS");
+                name: "Groups");
 
             migrationBuilder.DropTable(
-                name: "COURSES");
+                name: "Courses");
         }
     }
 }
