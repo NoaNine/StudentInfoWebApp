@@ -17,37 +17,23 @@ public class StudentController : Controller
 
     public async Task<IActionResult> Index(int groupId)
     {
-        try
+        var students = await _studentService.GetAllStudents();
+        if (groupId != 0)
         {
-            var students = await _studentService.GetAllStudents();
-            if (groupId != 0)
-            {
-                students = students.Where(_ => _.GroupId == groupId);
-            }
-            return View(students);
+            students = students.Where(_ => _.GroupId == groupId);
         }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return View(students);
     }
 
     [HttpPost]
     public async Task<IActionResult> Index(string searchString)
     {
-        try
+        var students = await _studentService.GetAllStudents();
+        if (!string.IsNullOrEmpty(searchString))
         {
-            var students = await _studentService.GetAllStudents();
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                students = students.Where(_ => _.LastName.Contains(searchString));
-            }
-            return View(students);
+            students = students.Where(_ => _.LastName.Contains(searchString));
         }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return View(students);
     }
 
     public async Task<IActionResult> Edit(int id)
@@ -66,15 +52,8 @@ public class StudentController : Controller
             return NotFound();
         }
 
-        try
-        {
-            _studentService.EditStudent(student);
-            return RedirectToAction(nameof(Index));
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        _studentService.EditStudent(student);
+        return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Delete(int id)

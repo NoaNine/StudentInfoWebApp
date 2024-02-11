@@ -17,37 +17,24 @@ public class GroupController : Controller
 
     public async Task<IActionResult> Index(int courseId)
     {
-        try
+        var groups = await _groupService.GetAllGroups();
+        if (courseId != 0)
         {
-            var groups = await _groupService.GetAllGroups();
-            if (courseId != 0)
-            {
-                groups = groups.Where(_ => _.CourseId == courseId);
-            }
-            return View(groups);
+            groups = groups.Where(_ => _.CourseId == courseId);
         }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return View(groups);
     }
 
     [HttpPost]
     public async Task<IActionResult> Index(string searchString)
     {
-        try
+        var groups = await _groupService.GetAllGroups();
+        if (!string.IsNullOrEmpty(searchString))
         {
-            var groups = await _groupService.GetAllGroups();
-            if (!string.IsNullOrEmpty(searchString))
-            {
-                groups = groups.Where(_ => _.Name.Contains(searchString));
-            }
-            return View(groups);
+            groups = groups.Where(_ => _.Name.Contains(searchString));
         }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        return View(groups);
+
     }
 
     public async Task<IActionResult> Edit(int id)
@@ -66,15 +53,8 @@ public class GroupController : Controller
             return NotFound();
         }
 
-        try
-        {
-            _groupService.EditGroup(group);
-            return RedirectToAction(nameof(Index));
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        _groupService.EditGroup(group);
+        return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Delete(int id)
@@ -90,14 +70,7 @@ public class GroupController : Controller
     {
         var group = await _groupService.GetById(id);
         IsNull(group);
-        try
-        {
-            _groupService.DeleteGroup(group);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        _groupService.DeleteGroup(group);
         return RedirectToAction(nameof(Index));
     }
 

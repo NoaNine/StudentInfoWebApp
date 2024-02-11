@@ -3,6 +3,7 @@ using StudentInfoWebApp.Core.Services;
 using StudentInfoWebApp.Core.Services.Interface;
 using StudentInfoWebApp.DAL;
 using StudentInfoWebApp.DAL.UnitOfWork;
+using StudentInfoWebApp.Web.Filters;
 
 namespace StudentInfoWebApp.Web;
 
@@ -55,7 +56,10 @@ public class Program
     {
         services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-        services.AddControllersWithViews();
+        services.AddControllersWithViews(options =>
+        {
+            options.Filters.Add(new ExceptionFilter());
+        });
 
         services.AddTransient<ICourseService, CourseService>();
         services.AddTransient<IGroupService, GroupService>();

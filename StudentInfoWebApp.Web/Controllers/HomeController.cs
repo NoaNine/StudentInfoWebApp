@@ -17,15 +17,8 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        try
-        {
-            var courses = await _courseService.GetAllCourses();
-            return View(courses);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        var courses = await _courseService.GetAllCourses();
+        return View(courses);
     }
 
     public async Task<IActionResult> Edit(int id)
@@ -44,15 +37,8 @@ public class HomeController : Controller
             return NotFound();
         }
 
-        try
-        {
-            _courseService.EditCourse(course);
-            return RedirectToAction(nameof(Index));
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, ex.Message);
-        }
+        _courseService.EditCourse(course);
+        return RedirectToAction(nameof(Index));
     }
 
     public async Task<IActionResult> Delete(int id)
