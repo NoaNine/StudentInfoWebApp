@@ -1,15 +1,19 @@
-﻿<h2>Групи</h2>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+<h2>@SharedLocalizer["Groups"]</h2>
 <form asp-controller="Group" asp-action="Index">
     <p>
-        Назва: <input type="text" name="searchString" />
-        <input type="submit" value="Фільтр" />
+        @SharedLocalizer["Name"] <input type="text" name="searchString" />
+        <input type="submit" value="@SharedLocalizer["Filter"]" />
     </p>
 </form>
 <table class="table">
     <tr>
-        <th>Id</th>
-        <th>Назва</th>
-        <th>Курс</th> 
+        <th>@SharedLocalizer["Id"]</th>
+        <th>@SharedLocalizer["Name"]</th>
+        <th>@SharedLocalizer["Course"]</th>
     </tr>
 
      @foreach (var item in Model)
@@ -19,11 +23,11 @@
             <td>@item.Name</td>
             <td>@item.Course.Name</td>
             <td>
-                <a asp-controller="Group" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-controller="Group" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                <a asp-controller="Group" asp-action="Edit" asp-route-id="@item.Id">@SharedLocalizer["Edit"]</a> |
+                <a asp-controller="Group" asp-action="Delete" asp-route-id="@item.Id">@SharedLocalizer["Delete"]</a>
             </td>
             <td class="nav-selected-item">
-                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index" asp-route-groupId="@item.Id">Студенти</a>
+                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index" asp-route-groupId="@item.Id">@SharedLocalizer["Students"]</a>
             </td>
         </tr>
     }

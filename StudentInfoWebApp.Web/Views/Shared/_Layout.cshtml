@@ -6,7 +6,9 @@
     @await Html.PartialAsync("_MetaTagsPartial")
 </head>
 <body>
-    @await Html.PartialAsync("_HeaderPartial")
+    <div class="Header">
+        @await Html.PartialAsync("_HeaderPartial")
+    </div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()

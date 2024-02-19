@@ -1,16 +1,19 @@
-﻿<h2>Студенти</h2>
+﻿@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+<h2>@SharedLocalizer["Students"]</h2>
 <form asp-controller="Student" asp-action="Index">
     <p>
-        Прізвище: <input type="text" name="searchString" />
-        <input type="submit" value="Фільтр" />
+        @SharedLocalizer["Last name"] <input type="text" name="searchString" />
+        <input type="submit" value="@SharedLocalizer["Filter"]" />
     </p>
 </form>
 <table class="table">
     <tr>
-        <th>Id</th>
-        <th>Ім'я</th>
-        <th>Прізвище</th>
-        <th>Група</th>
+        <th>@SharedLocalizer["Id"]</th>
+        <th>@SharedLocalizer["First name"]</th>
+        <th>@SharedLocalizer["Last name"]</th>
+        <th>@SharedLocalizer["Group"]</th>
     </tr>
 
     @foreach (var item in Model)
@@ -21,8 +24,8 @@
             <td>@item.LastName</td>
             <td>@item.Group.Name</td>
             <td>
-                <a asp-controller="Student" asp-action="Edit" asp-route-id="@item.Id">Редагувати</a> |
-                <a asp-controller="Student" asp-action="Delete" asp-route-id="@item.Id">Видалити</a>
+                <a asp-controller="Student" asp-action="Edit" asp-route-id="@item.Id">@SharedLocalizer["Edit"]</a> |
+                <a asp-controller="Student" asp-action="Delete" asp-route-id="@item.Id">@SharedLocalizer["Delete"]</a>
             </td>
         </tr>
     }

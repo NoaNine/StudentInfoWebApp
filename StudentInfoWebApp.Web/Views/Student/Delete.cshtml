@@ -1,7 +1,9 @@
 ﻿@model StudentInfoWebApp.DAL.Models.Student
 
-<h1>Ви точно хочете видалити студента?</h1>
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
 
+<h1>@Localizer["Delete student"]</h1>
 <tr>
     <td>@Model.FirstName</td>
     <td></td>
@@ -15,7 +17,7 @@
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="FirstName" />
             <div class="form-group">
-                <input type="submit" formmethod="post" value="Так" class="btn btn-primary" />
+                <input type="submit" formmethod="post" value="@SharedLocalizer["Yes"]" class="btn btn-primary" />
             </div>
             <input type="hidden" asp-for="LastName" />
             <input type="hidden" asp-for="Group" />
@@ -25,5 +27,5 @@
 </div>
 
 <div>
-    <a asp-action="Index">Назад до списку</a>
+    <a asp-action="Index">@SharedLocalizer["Back to list"]</a>
 </div>
