@@ -14,12 +14,12 @@ public class CourseService : BaseService, ICourseService
     }
 
     public async Task<Course> GetById(int id) =>
-        await _unitOfWork.GetRepository<Course>().GetById(id);
+        await _unitOfWork.GetRepository<Course>().GetByIdAsync(id);
 
     public void EditCourse(Course course)
     {
         _unitOfWork.GetRepository<Course>().Update(course);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
     }
 
     public void DeleteCourse(Course course)
@@ -29,12 +29,12 @@ public class CourseService : BaseService, ICourseService
             throw new CourseNotNullOrEmptyException();
         }
         _unitOfWork.GetRepository<Course>().Delete(course);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
     }
 
     public async Task<IEnumerable<Course>> GetAllCourses()
     {
-        var courses = await _unitOfWork.GetRepository<Course>().GetAll();
+        var courses = await _unitOfWork.GetRepository<Course>().GetAllAsync();
         await LoadGroupsToCourse(courses);
         return courses;
     }
@@ -43,7 +43,7 @@ public class CourseService : BaseService, ICourseService
     {
         foreach (var course in courses)
         {
-            var groups = await _unitOfWork.GetRepository<Group>().GetAll(c => c.CourseId == course.Id);
+            var groups = await _unitOfWork.GetRepository<Group>().GetAllAsync(c => c.CourseId == course.Id);
             course.Groups = (ICollection<Group>)groups;
             await LoadStudentsToGroup(course.Groups);
         }
@@ -53,7 +53,7 @@ public class CourseService : BaseService, ICourseService
     {
         foreach (var group in groups)
         {
-            var students = await _unitOfWork.GetRepository<Student>().GetAll();
+            var students = await _unitOfWork.GetRepository<Student>().GetAllAsync();
             group.Students = (ICollection<Student>)students;
         }
     }

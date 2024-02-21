@@ -15,10 +15,10 @@ public class Repository<Entity> : IRepository<Entity> where Entity : BaseModel
         _dbSet = _context.Set<Entity>();
     }
 
-    public async Task<Entity> GetById(object id) =>
+    public async Task<Entity> GetByIdAsync(object id) =>
         await _dbSet.FindAsync(id);
 
-    public async Task<IEnumerable<Entity>> GetAll(Expression<Func<Entity, bool>>? filter = null)
+    public async Task<IEnumerable<Entity>> GetAllAsync(Expression<Func<Entity, bool>>? filter = null)
     {
         if (filter is not null)
         {
@@ -27,22 +27,19 @@ public class Repository<Entity> : IRepository<Entity> where Entity : BaseModel
         return await _dbSet.ToListAsync();
     }
 
-    public Task Insert(Entity entity)
+    public void Insert(Entity entity)
     {
-        _dbSet.AddAsync(entity);
-        return Task.CompletedTask;
+        _dbSet.Add(entity);
     }
 
-    public Task Update(Entity entity)
+    public void Update(Entity entity)
     {
         _dbSet.Update(entity);
-        return Task.CompletedTask;
     }
 
-    public Task Delete(Entity entity)
+    public void Delete(Entity entity)
     {
         _dbSet.Remove(entity);
-        return Task.CompletedTask;
     }
 
 }

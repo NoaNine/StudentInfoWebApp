@@ -13,26 +13,26 @@ public class StudentService : BaseService, IStudentService
     }
 
     public async Task<Student> GetById(int id) =>
-        await _unitOfWork.GetRepository<Student>().GetById(id);
+        await _unitOfWork.GetRepository<Student>().GetByIdAsync(id);
 
     public void EditStudent(Student student)
     {
         _unitOfWork.GetRepository<Student>().Update(student);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
     }
 
     public void DeleteStudent(Student student)
     {
         _unitOfWork.GetRepository<Student>().Delete(student);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
     }
 
     public async Task<IEnumerable<Student>> GetAllStudents()
     {
-        var students = await _unitOfWork.GetRepository<Student>().GetAll();
+        var students = await _unitOfWork.GetRepository<Student>().GetAllAsync();
         foreach (var student in students)
         {
-            student.Group = await _unitOfWork.GetRepository<Group>().GetById(student.GroupId);
+            student.Group = await _unitOfWork.GetRepository<Group>().GetByIdAsync(student.GroupId);
         }
         return students;
     }

@@ -7,5 +7,5 @@ public interface IUnitOfWork
 {
     void Dispose();
     IRepository<TEntity> GetRepository<TEntity>() where TEntity : BaseModel;
-    void Save();
+    void SaveAsync();
 }

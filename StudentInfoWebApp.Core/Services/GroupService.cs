@@ -14,29 +14,29 @@ public class GroupService : BaseService, IGroupService
     }
 
     public async Task<Group> GetById(int id) =>
-        await _unitOfWork.GetRepository<Group>().GetById(id);
+        await _unitOfWork.GetRepository<Group>().GetByIdAsync(id);
 
     public void EditGroup(Group group)
     {
         _unitOfWork.GetRepository<Group>().Update(group);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
     }
 
     public void DeleteGroup(Group group)
     {
-        var students = _unitOfWork.GetRepository<Student>().GetAll(_ => _.GroupId == group.Id);
+        var students = _unitOfWork.GetRepository<Student>().GetAllAsync(_ => _.GroupId == group.Id);
         group.Students = (ICollection<Student>)students;
         if (group.Students.Count > 0)
         {
             throw new GroupNotNullOrEmptyException();
         }
         _unitOfWork.GetRepository<Group>().Delete(group);
-        _unitOfWork.Save();
+        _unitOfWork.SaveAsync();
     }
 
     public async Task<IEnumerable<Group>> GetAllGroups()
     {
-        var groups = await _unitOfWork.GetRepository<Group>().GetAll();
+        var groups = await _unitOfWork.GetRepository<Group>().GetAllAsync();
         await LoadStudentsToGroup(groups);
         return groups;
     }
@@ -45,9 +45,9 @@ public class GroupService : BaseService, IGroupService
     {
         foreach (var group in groups)
         {
-            var students = await _unitOfWork.GetRepository<Student>().GetAll(c => c.GroupId == group.Id);
+            var students = await _unitOfWork.GetRepository<Student>().GetAllAsync(c => c.GroupId == group.Id);
             group.Students = (ICollection<Student>)students;
-            group.Course = await _unitOfWork.GetRepository<Course>().GetById(group.CourseId);
+            group.Course = await _unitOfWork.GetRepository<Course>().GetByIdAsync(group.CourseId);
         }
     }
 }

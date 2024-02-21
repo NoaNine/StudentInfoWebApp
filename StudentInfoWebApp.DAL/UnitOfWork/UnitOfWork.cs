@@ -20,11 +20,11 @@ public class UnitOfWork : IUnitOfWork, IDisposable
         return new Repository<TEntity>(_context);
     }
 
-    public void Save()
+    public async void SaveAsync()
     {
         try
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         catch (DbUpdateException dbEx)
         {
