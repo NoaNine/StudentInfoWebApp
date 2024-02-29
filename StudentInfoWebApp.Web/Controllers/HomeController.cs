@@ -16,22 +16,22 @@ public class HomeController : Controller
         _courseService = courseService ?? throw new ArgumentNullException(nameof(courseService));
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> IndexAsync()
     {
-        var courses = await _courseService.GetAllCourses();
+        var courses = await _courseService.GetAllCoursesAsync();
         return View(courses);
     }
 
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> EditAsync(int id)
     {
-        var course = await _courseService.GetById(id);
+        var course = await _courseService.GetByIdAsync(id);
         IsNull(course);
         return View(course);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,Groups")] Course course)
+    public async Task<IActionResult> EditAsync(int id, [Bind("Id,Name,Description,Groups")] Course course)
     {
         if (id != course.Id)
         {
@@ -42,9 +42,9 @@ public class HomeController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> DeleteAsync(int id)
     {
-        var course = await _courseService.GetById(id);
+        var course = await _courseService.GetByIdAsync(id);
         IsNull(course);
 
         return View(course);
@@ -52,9 +52,9 @@ public class HomeController : Controller
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmedAsync(int id)
     {
-        var course = await _courseService.GetById(id);
+        var course = await _courseService.GetByIdAsync(id);
         IsNull(course);
         _courseService.DeleteCourse(course);
 

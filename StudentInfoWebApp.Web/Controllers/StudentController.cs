@@ -15,9 +15,9 @@ public class StudentController : Controller
         _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
     }
 
-    public async Task<IActionResult> Index(int groupId)
+    public async Task<IActionResult> IndexAsync(int groupId)
     {
-        var students = await _studentService.GetAllStudents();
+        var students = await _studentService.GetAllStudentsAsync();
         if (groupId != 0)
         {
             students = students.Where(_ => _.GroupId == groupId);
@@ -26,9 +26,9 @@ public class StudentController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index(string searchString)
+    public async Task<IActionResult> IndexAsync(string searchString)
     {
-        var students = await _studentService.GetAllStudents();
+        var students = await _studentService.GetAllStudentsAsync();
         if (!string.IsNullOrEmpty(searchString))
         {
             students = students.Where(_ => _.LastName.Contains(searchString));
@@ -36,16 +36,16 @@ public class StudentController : Controller
         return View(students);
     }
 
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> EditAsync(int id)
     {
-        var student = await _studentService.GetById(id);
+        var student = await _studentService.GetByIdAsync(id);
         IsNull(student);
         return View(student);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,Group,GroupId")] Student student)
+    public async Task<IActionResult> EditAsync(int id, [Bind("Id,FirstName,LastName,Group,GroupId")] Student student)
     {
         if (id != student.Id)
         {
@@ -56,18 +56,18 @@ public class StudentController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> DeleteAsync(int id)
     {
-        var student = await _studentService.GetById(id);
+        var student = await _studentService.GetByIdAsync(id);
         IsNull(student);
         return View(student);
     }
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmedAsync(int id)
     {
-        var student = await _studentService.GetById(id);
+        var student = await _studentService.GetByIdAsync(id);
         IsNull(student);
         _studentService.DeleteStudent(student);
 

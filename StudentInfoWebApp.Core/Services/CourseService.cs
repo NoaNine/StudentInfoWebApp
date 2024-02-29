@@ -13,8 +13,8 @@ public class CourseService : BaseService, ICourseService
 
     }
 
-    public async Task<Course> GetById(int id) =>
-        await _unitOfWork.GetRepository<Course>().GetByIdAsync(id);
+    public async ValueTask<Course> GetByIdAsync(int id) =>
+        await _unitOfWork.GetRepository<Course>().GetByIdAsync(id).ConfigureAwait(false);
 
     public void EditCourse(Course course)
     {
@@ -32,9 +32,9 @@ public class CourseService : BaseService, ICourseService
         _unitOfWork.SaveAsync();
     }
 
-    public async Task<IEnumerable<Course>> GetAllCourses()
+    public async Task<IEnumerable<Course>> GetAllCoursesAsync()
     {
-        var courses = await _unitOfWork.GetRepository<Course>().GetAllAsync();
+        var courses = await _unitOfWork.GetRepository<Course>().GetAllAsync().AsTask();
         await LoadGroupsToCourse(courses);
         return courses;
     }
@@ -43,7 +43,7 @@ public class CourseService : BaseService, ICourseService
     {
         foreach (var course in courses)
         {
-            var groups = await _unitOfWork.GetRepository<Group>().GetAllAsync(c => c.CourseId == course.Id);
+            var groups = await _unitOfWork.GetRepository<Group>().GetAllAsync(c => c.CourseId == course.Id).ConfigureAwait(false);
             course.Groups = (ICollection<Group>)groups;
             await LoadStudentsToGroup(course.Groups);
         }
@@ -53,7 +53,7 @@ public class CourseService : BaseService, ICourseService
     {
         foreach (var group in groups)
         {
-            var students = await _unitOfWork.GetRepository<Student>().GetAllAsync();
+            var students = await _unitOfWork.GetRepository<Student>().GetAllAsync().ConfigureAwait(false);
             group.Students = (ICollection<Student>)students;
         }
     }

@@ -13,8 +13,8 @@ public class GroupService : BaseService, IGroupService
 
     }
 
-    public async Task<Group> GetById(int id) =>
-        await _unitOfWork.GetRepository<Group>().GetByIdAsync(id);
+    public async ValueTask<Group> GetByIdAsync(int id) =>
+        await _unitOfWork.GetRepository<Group>().GetByIdAsync(id).ConfigureAwait(false);
 
     public void EditGroup(Group group)
     {
@@ -22,9 +22,9 @@ public class GroupService : BaseService, IGroupService
         _unitOfWork.SaveAsync();
     }
 
-    public void DeleteGroup(Group group)
+    public async ValueTask DeleteGroupAsync(Group group)
     {
-        var students = _unitOfWork.GetRepository<Student>().GetAllAsync(_ => _.GroupId == group.Id);
+        var students = await _unitOfWork.GetRepository<Student>().GetAllAsync(_ => _.GroupId == group.Id).ConfigureAwait(false);
         group.Students = (ICollection<Student>)students;
         if (group.Students.Count > 0)
         {
@@ -34,9 +34,9 @@ public class GroupService : BaseService, IGroupService
         _unitOfWork.SaveAsync();
     }
 
-    public async Task<IEnumerable<Group>> GetAllGroups()
+    public async Task<IEnumerable<Group>> GetAllGroupsAsync()
     {
-        var groups = await _unitOfWork.GetRepository<Group>().GetAllAsync();
+        var groups = await _unitOfWork.GetRepository<Group>().GetAllAsync().ConfigureAwait(false);
         await LoadStudentsToGroup(groups);
         return groups;
     }
@@ -45,9 +45,9 @@ public class GroupService : BaseService, IGroupService
     {
         foreach (var group in groups)
         {
-            var students = await _unitOfWork.GetRepository<Student>().GetAllAsync(c => c.GroupId == group.Id);
+            var students = await _unitOfWork.GetRepository<Student>().GetAllAsync(c => c.GroupId == group.Id).ConfigureAwait(false);
             group.Students = (ICollection<Student>)students;
-            group.Course = await _unitOfWork.GetRepository<Course>().GetByIdAsync(group.CourseId);
+            group.Course = await _unitOfWork.GetRepository<Course>().GetByIdAsync(group.CourseId).ConfigureAwait(false);
         }
     }
 }

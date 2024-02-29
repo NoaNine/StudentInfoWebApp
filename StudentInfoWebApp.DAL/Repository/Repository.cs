@@ -15,10 +15,10 @@ public class Repository<Entity> : IRepository<Entity> where Entity : BaseModel
         _dbSet = _context.Set<Entity>();
     }
 
-    public async Task<Entity> GetByIdAsync(object id) =>
-        await _dbSet.FindAsync(id);
+    public async ValueTask<Entity> GetByIdAsync(int id) =>
+        await _dbSet.FirstOrDefaultAsync(i => i.Id == id);
 
-    public async Task<IEnumerable<Entity>> GetAllAsync(Expression<Func<Entity, bool>>? filter = null)
+    public async ValueTask<IEnumerable<Entity>> GetAllAsync(Expression<Func<Entity, bool>>? filter = null)
     {
         if (filter is not null)
         {

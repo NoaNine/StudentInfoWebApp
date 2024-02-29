@@ -4,8 +4,8 @@ namespace StudentInfoWebApp.Core.Services.Interface;
 
 public interface ICourseService
 {
-    Task<Course> GetById(int id);
+    ValueTask<Course> GetByIdAsync(int id);
     void DeleteCourse(Course course);
     void EditCourse(Course course);
-    Task<IEnumerable<Course>> GetAllCourses();
+    Task<IEnumerable<Course>> GetAllCoursesAsync();
 }

@@ -6,8 +6,8 @@ namespace StudentInfoWebApp.DAL.Repository;
 public interface IRepository<Entity> where Entity : BaseModel
 {
     void Delete(Entity entity);
-    Task<IEnumerable<Entity>> GetAllAsync(Expression<Func<Entity, bool>> filter = null);
-    Task<Entity> GetByIdAsync(object id);
+    ValueTask<IEnumerable<Entity>> GetAllAsync(Expression<Func<Entity, bool>> filter = null);
+    ValueTask<Entity> GetByIdAsync(int id);
     void Insert(Entity entity);
     void Update(Entity entity);
 }

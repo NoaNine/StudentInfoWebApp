@@ -4,8 +4,8 @@ namespace StudentInfoWebApp.Core.Services.Interface;
 
 public interface IGroupService
 {
-    Task<Group> GetById(int id);
-    void DeleteGroup(Group group);
+    ValueTask<Group> GetByIdAsync(int id);
+    ValueTask DeleteGroupAsync(Group group);
     void EditGroup(Group group);
-    Task<IEnumerable<Group>> GetAllGroups();
+    Task<IEnumerable<Group>> GetAllGroupsAsync();
 }

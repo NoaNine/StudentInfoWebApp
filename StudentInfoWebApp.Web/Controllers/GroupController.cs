@@ -15,9 +15,9 @@ public class GroupController : Controller
         _groupService = groupService ?? throw new ArgumentNullException(nameof(groupService));
     }
 
-    public async Task<IActionResult> Index(int courseId)
+    public async Task<IActionResult> IndexAsync(int courseId)
     {
-        var groups = await _groupService.GetAllGroups();
+        var groups = await _groupService.GetAllGroupsAsync();
         if (courseId != 0)
         {
             groups = groups.Where(_ => _.CourseId == courseId);
@@ -26,9 +26,9 @@ public class GroupController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> Index(string searchString)
+    public async Task<IActionResult> IndexAsync(string searchString)
     {
-        var groups = await _groupService.GetAllGroups();
+        var groups = await _groupService.GetAllGroupsAsync();
         if (!string.IsNullOrEmpty(searchString))
         {
             groups = groups.Where(_ => _.Name.Contains(searchString));
@@ -37,16 +37,16 @@ public class GroupController : Controller
 
     }
 
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> EditAsync(int id)
     {
-        var group = await _groupService.GetById(id);
+        var group = await _groupService.GetByIdAsync(id);
         IsNull(group);
         return View(group);
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CourseId,Course,Students")] Group group)
+    public async Task<IActionResult> EditAsync(int id, [Bind("Id,Name,CourseId,Course,Students")] Group group)
     {
         if (id != group.Id)
         {
@@ -57,20 +57,20 @@ public class GroupController : Controller
         return RedirectToAction(nameof(Index));
     }
 
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> DeleteAsync(int id)
     {
-        var group = await _groupService.GetById(id);
+        var group = await _groupService.GetByIdAsync(id);
         IsNull(group);
         return View(group);
     }
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmedAsync(int id)
     {
-        var group = await _groupService.GetById(id);
+        var group = await _groupService.GetByIdAsync(id);
         IsNull(group);
-        _groupService.DeleteGroup(group);
+        await _groupService.DeleteGroupAsync(group).ConfigureAwait(false);
         return RedirectToAction(nameof(Index));
     }
 
