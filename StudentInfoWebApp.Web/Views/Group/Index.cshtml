@@ -1,0 +1,34 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+<h2>@SharedLocalizer["Groups"]</h2>
+<form asp-controller="Group" asp-action="Index">
+    <p>
+        @SharedLocalizer["Name"] <input type="text" name="searchString" />
+        <input type="submit" value="@SharedLocalizer["Filter"]" />
+    </p>
+</form>
+<table class="table">
+    <tr>
+        <th>@SharedLocalizer["Id"]</th>
+        <th>@SharedLocalizer["Name"]</th>
+        <th>@SharedLocalizer["Course"]</th>
+    </tr>
+
+     @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Name</td>
+            <td>@item.Course.Name</td>
+            <td>
+                <a asp-controller="Group" asp-action="Edit" asp-route-id="@item.Id">@SharedLocalizer["Edit"]</a> |
+                <a asp-controller="Group" asp-action="Delete" asp-route-id="@item.Id">@SharedLocalizer["Delete"]</a>
+            </td>
+            <td class="nav-selected-item">
+                <a class="nav-link text-dark" asp-controller="Student" asp-action="Index" asp-route-groupId="@item.Id">@SharedLocalizer["Students"]</a>
+            </td>
+        </tr>
+    }
+</table>

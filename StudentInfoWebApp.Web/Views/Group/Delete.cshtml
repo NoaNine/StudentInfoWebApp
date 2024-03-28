@@ -1,0 +1,29 @@
+﻿@model StudentInfoWebApp.DAL.Models.Group
+
+@inject IViewLocalizer Localizer
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
+<h1>@Localizer["Delete group"]</h1>
+<tr>
+    <td>@Model.Name</td>
+</tr>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Delete">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Name" />
+            <div class="form-group">
+                <input type="submit" formmethod="post" value="@SharedLocalizer["Yes"]" class="btn btn-primary" />
+            </div>
+            <input type="hidden" asp-for="Course" />
+            <input type="hidden" asp-for="CourseId" />
+            <input type="hidden" asp-for="Students" />
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@SharedLocalizer["Back to list"]</a>
+</div>
